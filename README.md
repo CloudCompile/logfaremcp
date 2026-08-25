@@ -55,8 +55,14 @@ Add that URL as a remote MCP server in ChatGPT. The endpoint uses a stateless No
 - `logfare_stt`: transcription from bounded inline data, MCP resource references, or HTTP(S) audio URLs.
 - `logfare_embeddings`: one or many text embeddings.
 - `logfare_route`: catalog-driven selection followed by chat generation.
+- `logfare_list_agents`: discover stable specialist roles such as planner, coder, reviewer, and researcher.
+- `logfare_spawn_agent`: delegate a bounded task to a catalog-resolved specialist with a role-specific system prompt.
 
-Examples to try in ChatGPT: “List the models available through Logfare.”, “Use Logfare’s DeepSeek model to analyze this code.”, “Pick the best Logfare model for this coding task.”, “Generate an image using Logfare.”, “Transcribe this audio using Logfare.”, and “Turn this text into speech using Logfare.”
+Examples to try in ChatGPT: “List the models available through Logfare.”, “Use Logfare’s DeepSeek model to analyze this code.”, “Pick the best Logfare model for this coding task.”, “Ask the Logfare coder agent to review this function.”, “Have a planner and reviewer analyze this architecture.”, “Generate an image using Logfare.”, “Transcribe this audio using Logfare.”, and “Turn this text into speech using Logfare.”
+
+## Agent runtime
+
+The agent layer intentionally keeps one delegation primitive instead of creating one MCP tool per model. `logfare_list_agents` describes stable roles. `logfare_spawn_agent` then fetches the live catalog, filters it by the role’s advertised modality, optionally honors an explicitly requested compatible model, and executes a bounded text task with a role-specific system prompt. No model IDs are hard-coded and no persistent agent state is stored. Image, audio, and embedding roles are discoverable, but use their modality-specific tools for execution because delegation currently returns text only.
 
 ## Security
 

@@ -63,6 +63,17 @@ export const embeddingsSchema = z.object({
   input: z.union([z.string().min(1).max(100_000), z.array(z.string().min(1).max(100_000)).min(1).max(1_000)]),
 });
 
+export const agentRoleSchema = z.enum(['planner', 'coder', 'reviewer', 'researcher', 'fast', 'image', 'vision', 'voice', 'transcriber', 'embeddings']);
+export const listAgentsSchema = z.object({});
+export const spawnAgentSchema = z.object({
+  role: agentRoleSchema,
+  model: model.optional(),
+  task: prompt,
+  context: z.string().max(100_000).optional(),
+  temperature: z.number().min(0).max(2).optional(),
+  max_tokens: z.number().int().positive().max(100_000).optional(),
+});
+
 export const routeSchema = z.object({
   task: z.string().min(1).max(100).optional(),
   prompt,
